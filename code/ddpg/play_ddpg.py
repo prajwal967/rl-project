@@ -10,10 +10,11 @@ from actor import ActorNetwork
 from critic import CriticNetwork
 from replay_buffer import ReplayBuffer
 
+
 def predict(sess, env, actor, critic, actor_noise, buffer_size, min_batch, ep):
 
     saver = tf.train.Saver(max_to_keep=5)
-    saver.restore(sess, tf.train.latest_checkpoint('model_checkpoints/'))
+    saver.restore(sess, tf.train.latest_checkpoint("model_checkpoints/"))
 
     max_episodes = ep
     max_steps = 3000
@@ -33,15 +34,15 @@ def predict(sess, env, actor, critic, actor_noise, buffer_size, min_batch, ep):
             env.render()
 
             if done:
-                print('Reward: {} | Episode: {}/{}'.format(int(score), i, max_episodes))
+                print("Reward: {} | Episode: {}/{}".format(int(score), i, max_episodes))
                 break
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     with tf.Session() as sess:
 
-        env = gym.make('LunarLanderContinuous-v2')
+        env = gym.make("LunarLanderContinuous-v2")
 
         env.seed(0)
         np.random.seed(0)
@@ -60,7 +61,17 @@ if __name__ == '__main__':
         action_bound = env.action_space.high
 
         actor_noise = OUNoise(mu=np.zeros(action_dim))
-        actor = ActorNetwork(sess, state_dim, action_dim, action_bound, actor_lr, tau, min_batch)
-        critic = CriticNetwork(sess, state_dim, action_dim, critic_lr, tau, gamma, actor.get_num_trainable_vars())
+        actor = ActorNetwork(
+            sess, state_dim, action_dim, action_bound, actor_lr, tau, min_batch
+        )
+        critic = CriticNetwork(
+            sess,
+            state_dim,
+            action_dim,
+            critic_lr,
+            tau,
+            gamma,
+            actor.get_num_trainable_vars(),
+        )
         predict(sess, env, actor, critic, actor_noise, buffer_size, min_batch, ep)
 

@@ -1,4 +1,3 @@
-print("Mohini")
 import gym
 import numpy as np
 import matplotlib.pyplot as plt
@@ -8,8 +7,7 @@ SEED = 0
 MAX_EPISODES = 10
 MAX_STEPS = 1000
 
-env = gym.make('LunarLander-v2')
-print("Default max episode steps", env._max_episode_steps)
+env = gym.make("LunarLander-v2")
 env.seed(SEED)
 n_states = env.observation_space.shape[0]
 n_actions = env.action_space.n
@@ -19,8 +17,7 @@ agent = Reinforce(seed=SEED, n_states=n_states, n_actions=n_actions, n_hidden=n_
 
 
 def main():
-    # score_list = []
-    agent.load_model(fname='lunarLander.pkl')
+    agent.load_model(fname="lunarLander.pkl")
     for i_episode in range(MAX_EPISODES):
         state = env.reset()
         score = 0
@@ -31,10 +28,14 @@ def main():
             agent.add_step_reward(reward)
             score += reward
             if done:
-                print('Reward: {} | Episode: {}/{}'.format(int(score), i_episode, MAX_EPISODES))
+                print(
+                    "Reward: {} | Episode: {}/{}".format(
+                        int(score), i_episode, MAX_EPISODES
+                    )
+                )
                 break
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
 
