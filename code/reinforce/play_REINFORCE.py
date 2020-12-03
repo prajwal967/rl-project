@@ -17,7 +17,7 @@ agent = Reinforce(seed=SEED, n_states=n_states, n_actions=n_actions, n_hidden=n_
 
 
 def main():
-    agent.load_model(fname="lunarLander.pkl")
+    agent.load_model(fname="../lunarLander.pkl")
     for i_episode in range(MAX_EPISODES):
         state = env.reset()
         score = 0
